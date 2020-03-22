@@ -6,4 +6,4 @@ S3 object creation event funnels through SNS to a Lambda function. This is a pro
 * AWS credentials configured for CLI
 
 # Usage
-1) `terraform init`
+1. `terraform init`

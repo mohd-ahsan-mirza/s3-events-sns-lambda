@@ -4,3 +4,6 @@ S3 object creation event funnels through SNS to a Lambda function. This is a pro
 # Prerequisites
 * Active AWS account
 * AWS credentials configured for CLI
+
+# Usage
+1) `terraform init`

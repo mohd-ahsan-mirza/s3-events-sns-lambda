@@ -72,12 +72,13 @@ data "archive_file" "zip" {
   source {
     content  = <<EOF
 import json
+import requests
 
-print('Loading function')
+#print('Loading function')
 
 def lambda_handler(event, context):
-    print("Received event: " + json.dumps(event, indent=2))
-    return "event firing"
+    #print("Received event: " + json.dumps(event, indent=2))
+    print(json.loads(event["Records"][0]["Sns"]["Message"])["Records"][0]["s3"]["object"]["key"])
 EOF
     filename = "lambda.py"
   }

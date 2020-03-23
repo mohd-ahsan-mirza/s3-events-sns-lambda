@@ -72,13 +72,19 @@ data "archive_file" "zip" {
   source {
     content  = <<EOF
 import json
-import requests
+import urllib3
+import os
 
 #print('Loading function')
 
 def lambda_handler(event, context):
     #print("Received event: " + json.dumps(event, indent=2))
-    print(json.loads(event["Records"][0]["Sns"]["Message"])["Records"][0]["s3"]["object"]["key"])
+    filename = json.loads(event["Records"][0]["Sns"]["Message"])["Records"][0]["s3"]["object"]["key"]
+    webhook_url = os.environ['webhook_url']
+    http = urllib3.PoolManager()
+    encoded_data = json.dumps({'text': filename}).encode('utf-8')
+    response = http.request("POST", webhook_url, body=encoded_data, headers={'Content-Type': 'application/json'})
+    print(str(response.status) + str(response.data))
 EOF
     filename = "lambda.py"
   }
@@ -122,4 +128,9 @@ resource "aws_lambda_function" "func" {
   runtime       = "python3.7"
   memory_size   = "128"
   timeout       = "60"
+  environment {
+    variables = {
+      webhook_url = ""
+    }
+  }
 }

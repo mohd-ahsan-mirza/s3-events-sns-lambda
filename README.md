@@ -1,5 +1,5 @@
 # Description
-S3 object creation event funnels through SNS to a Lambda function. You can see the event logs in CloudWatch. This is a proof of concept
+S3 object creation event funnels through SNS to a Lambda function. The event object gets parsed and the filename of the uploaded file in the S3 bucket is sent to an external service using an HTTP post request. You can see the event logs in CloudWatch.
 
 # Prerequisites
 * Active AWS account
